@@ -1,4 +1,6 @@
-﻿namespace Frends.Utilities.AlwaysTrue;
+﻿using Frends.Utilities.AlwaysTrue.Definitions;
+
+namespace Frends.Utilities.AlwaysTrue;
 
 /// <summary>
 /// Utilities AlwaysTrue task.
@@ -9,9 +11,9 @@ public class Utilities
     /// Return boolean value true.
     /// [Documentation](https://tasks.frends.com/tasks/frends-tasks/Frends.Utilities.AlwaysTrue)
     /// </summary>
-    /// <returns>bool True</returns>
-    public static bool AlwaysTrue()
+    /// <returns>Object { bool TaskResult }</returns>
+    public static Result AlwaysTrue()
     {
-       return true;
+       return new Result(true);
     }
 }
