@@ -1,4 +1,4 @@
-name: AlwaysTrue build test
+name: AlwaysTrue_push
 
 on:
   push:
@@ -7,10 +7,11 @@ on:
     paths:
       - 'Frends.Utilities.AlwaysTrue/**'
   workflow_dispatch:
-
+    paths:
+      - 'Frends.Utilities.AlwaysTrue/**'
 jobs:
   build:
-    uses: FrendsPlatform/FrendsTasks/.github/workflows/build_main.yml@main
+    uses: FrendsPlatform/FrendsTasks/.github/workflows/build_test.yml@main
     with:
       workdir: Frends.Utilities.AlwaysTrue
     secrets:

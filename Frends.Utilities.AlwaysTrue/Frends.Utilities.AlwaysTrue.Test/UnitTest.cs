@@ -8,6 +8,6 @@ public class UnitTest
     public void TestResultTrue()
     {
         var result = Utilities.AlwaysTrue();
-        Assert.IsTrue(result.TaskResult);
+        Assert.IsTrue(result.TaskResult); 
     }
 }
