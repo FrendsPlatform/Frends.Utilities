@@ -1,0 +1,13 @@
+name: AlwaysTrue release
+
+on:
+  workflow_dispatch:
+    paths:
+      - 'Frends.Utilities.AlwaysTrue/**'
+jobs:
+  build:
+    uses: FrendsPlatform/FrendsTasks/.github/workflows/release.yml@main
+    with:
+      workdir: Frends.Utilities.AlwaysTrue
+    secrets:
+      feed_api_key: ${{ secrets.TASKS_FEED_API_KEY }}
