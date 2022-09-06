@@ -11,6 +11,6 @@ public class UnitTest
     {
         Input input = new() { Hours = 0, Minutes = 0, Seconds = 10, Milliseconds = 0};
         var result = await Utilities.Sleep(input, default);
-        Assert.IsTrue(result.Equals(true));
+        Assert.IsTrue(result.SleepResult.Equals(true));
     }
 }

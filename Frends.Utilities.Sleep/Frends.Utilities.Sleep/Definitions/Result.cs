@@ -6,7 +6,7 @@
 public class Result
 {
     /// <summary>
-    /// Sleep complete.
+    /// Sleep result.
     /// </summary>
     /// <example>true</example>
     public bool SleepResult { get; private set; }
