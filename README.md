@@ -5,6 +5,9 @@ Frends Tasks for Utilities related operations.
 # Tasks
 
 - [Frends.Utilities.AlwaysTrue](Frends.Utilities.AlwaysTrue/README.md)
+- [Frends.Utilities.Sleep](Frends.Utilities.Sleep/README.md)
+- [Frends.Utilities.Echo](Frends.Utilities.Echo/README.md)
+- [Frends.Utilities.ThrowException](Frends.Utilities.ThrowException/README.md)
 
 # Contributing
 When contributing to this repository, please first discuss the change you wish to make via issue, email, or any other method with the owners of this repository before making a change.
