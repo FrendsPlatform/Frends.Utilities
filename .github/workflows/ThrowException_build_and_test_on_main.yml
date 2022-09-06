@@ -1,0 +1,19 @@
+name: ThrowException build main
+
+on:
+  push:
+    branches:    
+      - main
+    paths:
+      - 'Frends.Utilities.ThrowException/**'
+  workflow_dispatch:
+      paths:
+      - 'Frends.Utilities.ThrowException/**'
+
+jobs:
+  build:
+    uses: FrendsPlatform/FrendsTasks/.github/workflows/build_main.yml@main
+    with:
+      workdir: Frends.Utilities.ThrowException
+    secrets:
+      badge_service_api_key: ${{ secrets.BADGE_SERVICE_API_KEY }}
