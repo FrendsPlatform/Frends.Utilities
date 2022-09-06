@@ -8,7 +8,7 @@ public class Utilities
 {
     /// <summary>
     /// Returns given string.
-    /// [Documentation](https://tasks.frends.com/tasks/frends-tasks/Frends.Utilities.Sleep)
+    /// [Documentation](https://tasks.frends.com/tasks/frends-tasks/Frends.Utilities.Echo)
     /// </summary>
     /// <param name="input">Input parameter.</param>
     /// <returns>Object { string ResultString }</returns>
