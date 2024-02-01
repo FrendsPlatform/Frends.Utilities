@@ -13,18 +13,20 @@ internal class UnitTests
     private readonly string _inputFile = "file8kb.txt";
     private string _process;
 
+    [OneTimeSetUp]
+    public void OneTimeSetup()
+    {
+        _process = Environment.OSVersion.Platform.ToString().Equals("Unix") ? "/bin/bash" : "cmd.exe";
+    }
+
     [SetUp]
     public void Setup()
     {
-        Console.WriteLine(Environment.OSVersion.Platform.ToString());
-
         if (!Directory.Exists(_testDir))
         {
             Directory.CreateDirectory(_testDir);
             File.WriteAllText(Path.Combine(_testDir, _inputFile), new string('a', (8 * 1024) + 5));
         }
-
-        _process = Environment.OSVersion.Platform.ToString().Equals("Linux") ? "/bin/bash" : "cmd.exe";
     }
 
     [TearDown]
