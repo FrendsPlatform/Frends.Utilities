@@ -74,7 +74,6 @@ internal class UnitTests
     public void RunProcess_FillSTDOUT()
     {
         var testFileWithPath = Path.Combine(_testDir, _inputFile);
-
         var args = new[]
         {
             new Argument { Name = "/C", Value = $"type {testFileWithPath}" },

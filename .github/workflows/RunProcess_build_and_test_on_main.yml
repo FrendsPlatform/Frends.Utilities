@@ -9,8 +9,14 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
+  linux_build:
     uses: FrendsPlatform/FrendsTasks/.github/workflows/linux_build_main.yml@main
+    with:
+      workdir: Frends.Utilities.RunProcess
+    secrets:
+      badge_service_api_key: ${{ secrets.BADGE_SERVICE_API_KEY }}
+  windows_build:
+    uses: FrendsPlatform/FrendsTasks/.github/workflows/build_main.yml@main
     with:
       workdir: Frends.Utilities.RunProcess
     secrets:
