@@ -6,7 +6,6 @@ using NUnit.Framework.Constraints;
 using System;
 using System.IO;
 
-[Platform("Win")]
 [TestFixture]
 internal class WindowsTests
 {
