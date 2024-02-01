@@ -59,15 +59,47 @@ internal class UnitTests
     [Test]
     public void RunProcess_TimeoutNoKillProcess()
     {
-        ActualValueDelegate<object> test = TestBaseTimeoutKill(false);
-        Assert.That(test, Throws.TypeOf<TimeoutException>());
+        var args = new[]
+        {
+            new Argument { Name = "/C", Value = "timeout 30 /nobreak >NUL" },
+        };
+
+        var input = new Input { FileName = _process, Arguments = args };
+        var options = new Options
+        {
+            KillProcessAfterTimeout = false,
+            TimeoutSeconds = 15,
+            RedirectStandardInput = false,
+            ThrowExceptionOnErrorResponse = true,
+        };
+
+        var ex = Assert.Throws<TimeoutException>(() => Utilities.RunProcess(input, options));
+        Console.WriteLine(ex.Message);
+        Assert.IsTrue(ex.Message.Contains("External process"));
+        Assert.IsTrue(ex.Message.Contains("execution timed out after 15 seconds. (2)"));
     }
 
     [Test]
     public void RunProcess_TimeoutKillProcess()
     {
-        ActualValueDelegate<object> test = TestBaseTimeoutKill(true);
-        Assert.That(test, Throws.TypeOf<TimeoutException>());
+        var args = new[]
+        {
+            new Argument { Name = "/C", Value = "timeout 30 /nobreak >NUL" },
+        };
+
+        var input = new Input { FileName = _process, Arguments = args };
+        var options = new Options
+        {
+            KillProcessAfterTimeout = true,
+            TimeoutSeconds = 15,
+            RedirectStandardInput = false,
+            ThrowExceptionOnErrorResponse = true,
+        };
+
+        var ex = Assert.Throws<TimeoutException>(() => Utilities.RunProcess(input, options));
+        Console.WriteLine(ex.Message);
+        Assert.IsTrue(ex.Message.Contains("External process"));
+        Assert.IsTrue(ex.Message.Contains("execution timed out after 15 seconds. (2)"));
     }
 
     [Test]
@@ -99,8 +131,19 @@ internal class UnitTests
     [Test]
     public void RunProcess_FillSTDOUTTimeout30secsKillProcess()
     {
-        ActualValueDelegate<object> test = TestBufferTimeoutKill();
-        Assert.That(test, Throws.TypeOf<TimeoutException>());
+        var testFileWithPath = Path.Combine(_testDir, _inputFile);
+        var args = new[]
+        {
+            new Argument { Name = "/C", Value = $"type {testFileWithPath} && timeout 120 /nobreak >NUL" },
+        };
+
+        var input = new Input { FileName = _process, Arguments = args };
+        var options = new Options { KillProcessAfterTimeout = true, TimeoutSeconds = 60, RedirectStandardInput = false };
+
+        var ex = Assert.Throws<TimeoutException>(() => Utilities.RunProcess(input, options));
+        Console.WriteLine(ex.Message);
+        Assert.IsTrue(ex.Message.Contains("External process"));
+        Assert.IsTrue(ex.Message.Contains("execution timed out after 60 seconds. (2)"));
     }
 
     [Test]
@@ -131,32 +174,5 @@ internal class UnitTests
 
         var ex = Assert.Throws<ApplicationException>(() => Utilities.RunProcess(input, options));
         Assert.AreEqual($"External process execution failed with returncode: 1 and output: {Environment.NewLine}The system cannot find the file specified.{Environment.NewLine}", ex.Message);
-    }
-
-    private ActualValueDelegate<object> TestBufferTimeoutKill()
-    {
-        var testFileWithPath = Path.Combine(_testDir, _inputFile);
-
-        var args = new[]
-        {
-            new Argument { Name = "/C", Value = $"type {testFileWithPath} && timeout 60 /nobreak >NUL" },
-        };
-
-        var input = new Input { FileName = _process, Arguments = args };
-        var options = new Options { KillProcessAfterTimeout = true, TimeoutSeconds = 30, RedirectStandardInput = false };
-        return () => Utilities.RunProcess(input, options);
-    }
-
-    private ActualValueDelegate<object> TestBaseTimeoutKill(bool optionsKillProcess)
-    {
-        var args = new[]
-        {
-            new Argument { Name = "/C", Value = "timeout 10 /nobreak >NUL" },
-        };
-
-        var input = new Input { FileName = _process, Arguments = args };
-        var options = new Options { KillProcessAfterTimeout = optionsKillProcess, TimeoutSeconds = 5, RedirectStandardInput = false };
-
-        return () => Utilities.RunProcess(input, options);
     }
 }
