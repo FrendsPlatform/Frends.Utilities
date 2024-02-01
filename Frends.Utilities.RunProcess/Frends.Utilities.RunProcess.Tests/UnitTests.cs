@@ -22,7 +22,7 @@ internal class UnitTests
             File.WriteAllText(Path.Combine(_testDir, _inputFile), new string('a', (8 * 1024) + 5));
         }
 
-        _process = Environment.OSVersion.Platform.ToString().Equals("Linux") ? _process : "bash";
+        _process = Environment.OSVersion.Platform.ToString().Equals("Linux") ? "/bin/bash" : "cmd.exe";
     }
 
     [TearDown]

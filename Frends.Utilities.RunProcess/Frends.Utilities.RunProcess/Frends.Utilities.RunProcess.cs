@@ -89,7 +89,7 @@ public static class Utilities
                 if (process.HasExited)
                 {
                     // Exited - return object / throw error
-                    if (process.ExitCode != 0 && options.ThrowExceptionOnErrorResponse == true)
+                    if (process.ExitCode != 0 && options.ThrowExceptionOnErrorResponse)
                         throw new ApplicationException($"External process execution failed with returncode: {process.ExitCode} and output: {Environment.NewLine}{stderrSb}");
 
                     return new Result(process.ExitCode, stdoutSb.ToString(), stderrSb.ToString());
@@ -106,7 +106,7 @@ public static class Utilities
             else
             {
                 // Timeout & process is runnimg
-                if (process.HasExited == false && options.KillProcessAfterTimeout == true)
+                if (!process.HasExited && options.KillProcessAfterTimeout)
                     process.Kill();
 
                 throw new TimeoutException($"External process <{process.Id}> execution timed out after {options.TimeoutSeconds} seconds. (2)");
