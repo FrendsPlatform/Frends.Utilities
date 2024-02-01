@@ -27,6 +27,6 @@ public class Result
     /// <summary>
     /// The process error output (STDERR)
     /// </summary>
-    /// <example> </example>
+    /// <example>The system cannot find the file specified.</example>
     public string StdErr { get; set; }
 }

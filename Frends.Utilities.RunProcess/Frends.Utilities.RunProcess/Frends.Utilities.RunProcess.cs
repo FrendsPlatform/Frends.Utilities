@@ -19,9 +19,8 @@ public static class Utilities
     /// </summary>
     /// <param name="input">Input parameters.</param>
     /// <param name="options">Options parameters.</param>
-    /// <param name="cancellationToken">Cancellation token given by Frends.</param>
     /// <returns>Object { int ExitCode, string Output, string StdErr }</returns>
-    public static Result RunProcess([PropertyTab] Input input, [PropertyTab] Options options, CancellationToken cancellationToken)
+    public static Result RunProcess([PropertyTab] Input input, [PropertyTab] Options options)
     {
         using var process = new Process();
 
@@ -91,7 +90,7 @@ public static class Utilities
                 {
                     // Exited - return object / throw error
                     if (process.ExitCode != 0 && options.ThrowExceptionOnErrorResponse == true)
-                        throw new ApplicationException($"External process execution failed with returncode: {process.ExitCode} and output: {Environment.NewLine}{stderrSb.ToString()}");
+                        throw new ApplicationException($"External process execution failed with returncode: {process.ExitCode} and output: {Environment.NewLine}{stderrSb}");
 
                     return new Result(process.ExitCode, stdoutSb.ToString(), stderrSb.ToString());
                 }
