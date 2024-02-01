@@ -7,11 +7,11 @@ using System;
 using System.IO;
 
 [TestFixture]
-internal class WindowsTests
+internal class UnitTests
 {
     private readonly string _testDir = Path.Combine(Path.GetTempPath(), @"ExecTests" + DateTime.Now.ToString("yyyyMMdd_HHmmss"));
     private readonly string _inputFile = "file8kb.txt";
-    private readonly string _process = Environment.ExpandEnvironmentVariables(@"%windir%\system32\cmd.exe");
+    private string _process;
 
     [SetUp]
     public void Setup()
@@ -21,6 +21,8 @@ internal class WindowsTests
             Directory.CreateDirectory(_testDir);
             File.WriteAllText(Path.Combine(_testDir, _inputFile), new string('a', (8 * 1024) + 5));
         }
+
+        _process = Environment.OSVersion.Platform.ToString().Equals("Linux") ? _process : "bash";
     }
 
     [TearDown]
@@ -82,7 +84,7 @@ internal class WindowsTests
         Assert.IsTrue(result.Output.Length >= 8096 + 5);
         Assert.IsTrue(result.Output[1234] == 'a');
 
-        input = new Input { FileName = "cmd.exe", Arguments = args };
+        input = new Input { FileName = _process, Arguments = args };
         options = new Options { KillProcessAfterTimeout = false, TimeoutSeconds = 30, RedirectStandardInput = false };
 
         result = Utilities.RunProcess(input, options);
@@ -106,11 +108,11 @@ internal class WindowsTests
             new Argument { Name = "/C", Value = "type filethatdontexist.txt" },
         };
 
-        var input = new Input { FileName = "cmd.exe", Arguments = args };
+        var input = new Input { FileName = _process, Arguments = args };
         var options = new Options { KillProcessAfterTimeout = false, TimeoutSeconds = 30, RedirectStandardInput = false, ThrowExceptionOnErrorResponse = false };
 
         var result = Utilities.RunProcess(input, options);
-        Assert.AreEqual("The system cannot find the file specified.", result.StdErr);
+        Assert.AreEqual($"The system cannot find the file specified.{Environment.NewLine}", result.StdErr);
     }
 
     [Test]
@@ -121,11 +123,11 @@ internal class WindowsTests
             new Argument { Name = "/C", Value = "type filethatdontexist.txt" },
         };
 
-        var input = new Input { FileName = "cmd.exe", Arguments = args };
+        var input = new Input { FileName = _process, Arguments = args };
         var options = new Options { KillProcessAfterTimeout = false, TimeoutSeconds = 30, RedirectStandardInput = false, ThrowExceptionOnErrorResponse = true };
 
         var ex = Assert.Throws<ApplicationException>(() => Utilities.RunProcess(input, options));
-        Assert.AreEqual("External process execution failed with returncode: 1 and output: \r\nThe system cannot find the file specified.\r\n", ex.Message);
+        Assert.AreEqual($"External process execution failed with returncode: 1 and output: {Environment.NewLine}The system cannot find the file specified.{Environment.NewLine}", ex.Message);
     }
 
     private ActualValueDelegate<object> TestBufferTimeoutKill()
