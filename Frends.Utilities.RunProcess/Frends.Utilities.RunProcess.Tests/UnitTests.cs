@@ -134,7 +134,7 @@ internal class UnitTests
         var testFileWithPath = Path.Combine(_testDir, _inputFile);
         var args = new[]
         {
-            new Argument { Name = "/C", Value = $"type {testFileWithPath} && timeout 120 /nobreak >NUL" },
+            new Argument { Name = "/C", Value = $"timeout 120 /nobreak >NUL" },
         };
 
         var input = new Input { FileName = _process, Arguments = args };
