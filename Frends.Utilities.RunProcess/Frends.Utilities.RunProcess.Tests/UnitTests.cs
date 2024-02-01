@@ -16,6 +16,8 @@ internal class UnitTests
     [SetUp]
     public void Setup()
     {
+        Console.WriteLine(Environment.OSVersion.Platform.ToString());
+
         if (!Directory.Exists(_testDir))
         {
             Directory.CreateDirectory(_testDir);
