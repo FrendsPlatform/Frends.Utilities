@@ -65,7 +65,7 @@ internal class UnitTests
     public void RunProcess_TimeoutNoKillProcess()
     {
         var args = _windows
-            ? new string[] { "/C", "timeout /t 30 /nobreak > NUL 2>&1" }
+            ? new string[] { "/C", "timeout /t 30 > NUL 2>&1" }
             : new string[] { "-c", "sleep 30 > /dev/null 2>&1" };
 
         input.Arguments = args;
@@ -85,7 +85,7 @@ internal class UnitTests
     [Test]
     public void RunProcess_RunMultipleArguments()
     {
-        var testFileWithPath = Path.Combine(_testDir, "test4.txt");
+        var testFileWithPath = _windows ? Path.Combine(_testDir, "testWin.txt") : Path.Combine(_testDir, "testUnix.txt");
         var args = _windows
             ? new string[] { "/C", "set", "/A", "1+10", $">{testFileWithPath}" }
             : new string[] { "-c", $"echo $((1+10)) > {testFileWithPath}" };
