@@ -62,12 +62,11 @@ internal class UnitTests
     }
 
     [Test]
-    [Ignore("Local tests")]
     public void RunProcess_TimeoutNoKillProcess()
     {
         var args = _windows
             ? new string[] { "/C timeout 30 /nobreak > NUL" }
-            : new string[] { "-c", "timeout 30 /nobreak > NUL" };
+            : new string[] { "-c", "sleep 30 > /dev/null 2>&1" };
 
         input.Arguments = args;
         var options = new Options
@@ -89,23 +88,22 @@ internal class UnitTests
         var testFileWithPath = Path.Combine(_testDir, "test4.txt");
         var args = _windows
             ? new string[] { "/C", "set", "/A", "1+10", $">{testFileWithPath}" }
-            : new string[] { "-c", $"echo", "(1+10)", ">", $"{testFileWithPath}" };
+            : new string[] { "-c", $"echo $((1+10)) > {testFileWithPath}" };
 
         input.Arguments = args;
         var options = new Options { KillProcessAfterTimeout = false, TimeoutSeconds = 30, RedirectStandardInput = false };
 
         Utilities.RunProcess(input, options);
 
-        Assert.AreEqual("11", File.ReadAllText(testFileWithPath));
+        Assert.AreEqual($"11{Environment.NewLine}", File.ReadAllText(testFileWithPath));
     }
 
     [Test]
-    [Ignore("Local tests")]
     public void RunProcess_TimeoutKillProcess()
     {
         var args = _windows
             ? new string[] { "/C timeout 30 /nobreak >NUL" }
-            : new string[] { "-c", "timeout 30 /nobreak >NUL" };
+            : new string[] { "-c", "sleep 30 > /dev/null 2>&1" };
 
         input.Arguments = args;
         var options = new Options
@@ -138,12 +136,11 @@ internal class UnitTests
     }
 
     [Test]
-    [Ignore("Local tests")]
     public void RunProcess_FillSTDOUTTimeout30secsKillProcess()
     {
         var args = _windows
             ? new string[] { "/C timeout 30 /nobreak >NUL" }
-            : new string[] { "-c", $"wait 30 >NUL" };
+            : new string[] { "-c", $"sleep 30 > /dev/null 2>&1" };
 
         input.Arguments = args;
         var options = new Options { KillProcessAfterTimeout = true, TimeoutSeconds = 15, RedirectStandardInput = false, ThrowExceptionOnErrorResponse = true };
