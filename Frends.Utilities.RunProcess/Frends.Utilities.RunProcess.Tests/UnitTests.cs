@@ -103,7 +103,7 @@ internal class UnitTests
     {
         var args = _windows
             ? new string[] { $"/C type {_testFilePath}" }
-            : new string[] { $"echo  $(<{_testFilePath})" };
+            : new string[] { $"cat {_testFilePath}" };
 
         input.Arguments = args;
         var options = new Options { KillProcessAfterTimeout = false, TimeoutSeconds = 30, RedirectStandardInput = false };
