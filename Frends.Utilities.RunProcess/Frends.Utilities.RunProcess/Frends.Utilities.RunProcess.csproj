@@ -11,7 +11,7 @@
 	  <PackageTags>Frends</PackageTags>
 	  <PackageLicenseExpression>MIT</PackageLicenseExpression>
 	  <GenerateDocumentationFile>true</GenerateDocumentationFile>
-	  <Description>Frends Task for running processes on a local machine.</Description>
+	  <Description>Frends Task for running cmd or bash commands in a local machine.</Description>
 	  <PackageProjectUrl>https://frends.com/</PackageProjectUrl>
 	  <RepositoryUrl>https://github.com/FrendsPlatform/Frends.Utilities/tree/main/Frends.Utilities.RunProcess</RepositoryUrl>
   </PropertyGroup>

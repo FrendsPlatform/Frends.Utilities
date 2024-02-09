@@ -13,7 +13,7 @@ using Frends.Utilities.RunProcess.Definitions;
 public static class Utilities
 {
     /// <summary>
-    /// Frends Task for running processes in local machine.
+    /// Frends Task for running cmd or bash commands in a local machine.
     /// [Documentation](https://tasks.frends.com/tasks/frends-tasks/Frends.Utilities.RunProcess).
     /// </summary>
     /// <param name="input">Input parameters.</param>

@@ -1,5 +1,5 @@
 # Frends.Utilities.RunProcess
-Frends Task for running processes in a local machine.
+Frends Task for running cmd or bash commands in a local machine.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 [![Build](https://github.com/FrendsPlatform/Frends.Utilities/actions/workflows/RunProcess_build_and_test_on_main.yml/badge.svg)](https://github.com/FrendsPlatform/Frends.Utilities/actions)

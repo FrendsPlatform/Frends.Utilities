@@ -9,13 +9,6 @@ using System.ComponentModel.DataAnnotations;
 public class Input
 {
     /// <summary>
-    /// Select which platform the Task is running.
-    /// </summary>
-    /// <example>Platform.Unix</example>
-    [DefaultValue(Platform.Windows)]
-    public Platform Platform { get; set; }
-
-    /// <summary>
     /// An application or document with which to start a process. Use cmd.exe to execute command on "command line".
     /// </summary>
     /// <example>cmd.exe</example>
@@ -25,7 +18,8 @@ public class Input
 
     /// <summary>
     /// Command-line arguments to use when starting the application.
+    /// For Windows use /C start and on Unix use -c.
     /// </summary>
-    /// <example>[ "/C set" ]</example>
+    /// <example>[ "/C", "echo Hello" ]</example>
     public string[] Arguments { get; set; }
 }

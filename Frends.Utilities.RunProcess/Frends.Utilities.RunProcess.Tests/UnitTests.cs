@@ -20,7 +20,6 @@ internal class UnitTests
     {
         input = new Input()
         {
-            Platform = _windows ? Platform.Windows : Platform.Unix,
             FileName = _windows ? "cmd.exe" : "/bin/bash",
         };
 
