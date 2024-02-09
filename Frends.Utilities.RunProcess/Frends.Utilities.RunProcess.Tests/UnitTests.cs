@@ -41,11 +41,12 @@ internal class UnitTests
     }
 
     [Test]
-    public void Test()
+    public void RunProcess_Echo()
     {
         var args = _windows
             ? new string[] { "/C", "echo Hello" }
-            : new string[] { "-c", @"""echo Hello""" };
+            : new string[] { "-c", @"echo ""Hello""" };
+
         input.Arguments = args;
 
         var options = new Options
@@ -166,24 +167,7 @@ internal class UnitTests
         if (_windows)
             Assert.AreEqual($"The system cannot find the file specified.{Environment.NewLine}", result.StdErr);
         else
-            Assert.AreEqual($"/bin/bash: type: No such file or directory{Environment.NewLine}", result.StdErr);
-    }
-
-    [Test]
-    public void RunProcess_FailingProcess2()
-    {
-        var args = _windows
-            ? new string[] { "/C type filethatdontexist.txt" }
-            : new string[] { "-c", @"echo ""$(<filethatdontexist.txt)""" };
-
-        input.Arguments = args;
-        var options = new Options { KillProcessAfterTimeout = false, TimeoutSeconds = 30, RedirectStandardInput = false, ThrowExceptionOnErrorResponse = false };
-
-        var result = Utilities.RunProcess(input, options);
-        if (_windows)
-            Assert.AreEqual($"The system cannot find the file specified.{Environment.NewLine}", result.StdErr);
-        else
-            Assert.AreEqual($"/bin/bash: type: No such file or directory{Environment.NewLine}", result.StdErr);
+            Assert.AreEqual($"/bin/bash: line 1: filethatdontexist.txt: No such file or directory{Environment.NewLine}", result.StdErr);
     }
 
     [Test]
@@ -197,6 +181,9 @@ internal class UnitTests
         var options = new Options { KillProcessAfterTimeout = false, TimeoutSeconds = 30, RedirectStandardInput = false, ThrowExceptionOnErrorResponse = true };
 
         var ex = Assert.Throws<ApplicationException>(() => Utilities.RunProcess(input, options));
-        Assert.AreEqual($"External process execution failed with returncode: 1 and output: {Environment.NewLine}The system cannot find the file specified.{Environment.NewLine}", ex.Message);
+        if (_windows)
+            Assert.AreEqual($"External process execution failed with returncode: 1 and output: {Environment.NewLine}The system cannot find the file specified.{Environment.NewLine}", ex.Message);
+        else
+            Assert.AreEqual($"External process execution failed with returncode: 1 and output: {Environment.NewLine}/bin/bash: line 1: filethatdontexist.txt: No such file or directory{Environment.NewLine}", ex.Message);
     }
 }
