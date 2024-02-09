@@ -142,7 +142,24 @@ internal class UnitTests
     {
         var args = _windows
             ? new string[] { "/C type filethatdontexist.txt" }
-            : new string[] { "echo  $(<filethatdontexist.txt)" };
+            : new string[] { @"echo  ""$(<filethatdontexist.txt)""" };
+
+        input.Arguments = args;
+        var options = new Options { KillProcessAfterTimeout = false, TimeoutSeconds = 30, RedirectStandardInput = false, ThrowExceptionOnErrorResponse = false };
+
+        var result = Utilities.RunProcess(input, options);
+        if (_windows)
+            Assert.AreEqual($"The system cannot find the file specified.{Environment.NewLine}", result.StdErr);
+        else
+            Assert.AreEqual($"/bin/bash: type: No such file or directory{Environment.NewLine}", result.StdErr);
+    }
+
+    [Test]
+    public void RunProcess_FailingProcess2()
+    {
+        var args = _windows
+            ? new string[] { "/C type filethatdontexist.txt" }
+            : new string[] { @"cat filethatdontexist.txt" };
 
         input.Arguments = args;
         var options = new Options { KillProcessAfterTimeout = false, TimeoutSeconds = 30, RedirectStandardInput = false, ThrowExceptionOnErrorResponse = false };
