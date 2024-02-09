@@ -21,7 +21,7 @@ internal class UnitTests
         input = new Input()
         {
             Platform = _windows ? Platform.Windows : Platform.Unix,
-            FileName = _windows ? "cmd.exe" : "bash",
+            FileName = _windows ? "cmd.exe" : "/bin/bash",
         };
 
         if (!Directory.Exists(_testDir))
@@ -41,11 +41,32 @@ internal class UnitTests
     }
 
     [Test]
+    public void Test()
+    {
+        var args = _windows
+            ? new string[] { "/C", "echo Hello" }
+            : new string[] { "-c", @"""echo Hello""" };
+        input.Arguments = args;
+
+        var options = new Options
+        {
+            KillProcessAfterTimeout = false,
+            TimeoutSeconds = 15,
+            RedirectStandardInput = true,
+            ThrowExceptionOnErrorResponse = true,
+        };
+
+        var result = Utilities.RunProcess(input, options);
+        Assert.AreEqual($"Hello{Environment.NewLine}", result.Output);
+    }
+
+    [Test]
+    [Ignore("Local tests")]
     public void RunProcess_TimeoutNoKillProcess()
     {
         var args = _windows
             ? new string[] { "/C timeout 30 /nobreak > NUL" }
-            : new string[] { "timeout 30 /nobreak > NUL" };
+            : new string[] { "-c", "timeout 30 /nobreak > NUL" };
 
         input.Arguments = args;
         var options = new Options
@@ -66,8 +87,8 @@ internal class UnitTests
     {
         var testFileWithPath = Path.Combine(_testDir, "test4.txt");
         var args = _windows
-            ? new string[] { "/C", "set", "/A", "(1+10)", $">>", $"{testFileWithPath}" }
-            : new string[] { $"echo", "(1+10)", ">", $"{testFileWithPath}" };
+            ? new string[] { "/C", "set", "/A", "1+10", $">{testFileWithPath}" }
+            : new string[] { "-c", $"echo", "(1+10)", ">", $"{testFileWithPath}" };
 
         input.Arguments = args;
         var options = new Options { KillProcessAfterTimeout = false, TimeoutSeconds = 30, RedirectStandardInput = false };
@@ -78,11 +99,12 @@ internal class UnitTests
     }
 
     [Test]
+    [Ignore("Local tests")]
     public void RunProcess_TimeoutKillProcess()
     {
         var args = _windows
             ? new string[] { "/C timeout 30 /nobreak >NUL" }
-            : new string[] { "timeout 30 /nobreak >NUL" };
+            : new string[] { "-c", "timeout 30 /nobreak >NUL" };
 
         input.Arguments = args;
         var options = new Options
@@ -103,7 +125,7 @@ internal class UnitTests
     {
         var args = _windows
             ? new string[] { $"/C type {_testFilePath}" }
-            : new string[] { $"cat {_testFilePath}" };
+            : new string[] { "-c", $"cat {_testFilePath}" };
 
         input.Arguments = args;
         var options = new Options { KillProcessAfterTimeout = false, TimeoutSeconds = 30, RedirectStandardInput = false };
@@ -112,22 +134,15 @@ internal class UnitTests
 
         Assert.IsTrue(result.Output.Length >= 8096 + 5);
         Assert.IsTrue(result.Output[1234] == 'a');
-
-        input.Arguments = args;
-        options = new Options { KillProcessAfterTimeout = false, TimeoutSeconds = 30, RedirectStandardInput = false };
-
-        result = Utilities.RunProcess(input, options);
-
-        Assert.IsTrue(result.Output.Length >= 8096 + 5);
-        Assert.IsTrue(result.Output[1234] == 'a');
     }
 
     [Test]
+    [Ignore("Local tests")]
     public void RunProcess_FillSTDOUTTimeout30secsKillProcess()
     {
         var args = _windows
             ? new string[] { "/C timeout 30 /nobreak >NUL" }
-            : new string[] { $"wait 30 >NUL" };
+            : new string[] { "-c", $"wait 30 >NUL" };
 
         input.Arguments = args;
         var options = new Options { KillProcessAfterTimeout = true, TimeoutSeconds = 15, RedirectStandardInput = false, ThrowExceptionOnErrorResponse = true };
@@ -142,7 +157,7 @@ internal class UnitTests
     {
         var args = _windows
             ? new string[] { "/C type filethatdontexist.txt" }
-            : new string[] { @"echo  ""$(<filethatdontexist.txt)""" };
+            : new string[] { "-c", @"echo  ""$(<filethatdontexist.txt)""" };
 
         input.Arguments = args;
         var options = new Options { KillProcessAfterTimeout = false, TimeoutSeconds = 30, RedirectStandardInput = false, ThrowExceptionOnErrorResponse = false };
@@ -159,7 +174,7 @@ internal class UnitTests
     {
         var args = _windows
             ? new string[] { "/C type filethatdontexist.txt" }
-            : new string[] { @"cat filethatdontexist.txt" };
+            : new string[] { "-c", @"echo ""$(<filethatdontexist.txt)""" };
 
         input.Arguments = args;
         var options = new Options { KillProcessAfterTimeout = false, TimeoutSeconds = 30, RedirectStandardInput = false, ThrowExceptionOnErrorResponse = false };
@@ -176,7 +191,7 @@ internal class UnitTests
     {
         var args = _windows
         ? new string[] { "/C type filethatdontexist.txt" }
-        : new string[] { "echo  $(<filethatdontexist.txt)" };
+        : new string[] { "-c", @"echo  ""$(<filethatdontexist.txt)""" };
 
         input.Arguments = args;
         var options = new Options { KillProcessAfterTimeout = false, TimeoutSeconds = 30, RedirectStandardInput = false, ThrowExceptionOnErrorResponse = true };

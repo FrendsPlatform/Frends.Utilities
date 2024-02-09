@@ -3,7 +3,6 @@
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Linq;
 using System.Text;
 using System.Threading;
 using Frends.Utilities.RunProcess.Definitions;
@@ -22,17 +21,21 @@ public static class Utilities
     /// <returns>Object { int ExitCode, string Output, string StdErr }</returns>
     public static Result RunProcess([PropertyTab] Input input, [PropertyTab] Options options)
     {
-        using var process = new Process();
+        var startInfo = new ProcessStartInfo
+        {
+            UseShellExecute = false,
+            FileName = input.FileName,
+            WindowStyle = ProcessWindowStyle.Hidden,
+            CreateNoWindow = true,
+            RedirectStandardError = true,
+            RedirectStandardOutput = true,
+            RedirectStandardInput = options.RedirectStandardInput,
+        };
 
-        process.StartInfo.UseShellExecute = false;
         foreach (var item in input.Arguments)
-            process.StartInfo.ArgumentList.Add(item);
-        process.StartInfo.FileName = input.FileName;
-        process.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
-        process.StartInfo.CreateNoWindow = true;
-        process.StartInfo.RedirectStandardError = true;
-        process.StartInfo.RedirectStandardOutput = true;
-        process.StartInfo.RedirectStandardInput = options.RedirectStandardInput;
+            startInfo.ArgumentList.Add(item);
+
+        using var process = Process.Start(startInfo);
 
         var stdoutSb = new StringBuilder();
         var stderrSb = new StringBuilder();
@@ -92,6 +95,8 @@ public static class Utilities
                     // Exited - return object / throw error
                     if (process.ExitCode != 0 && options.ThrowExceptionOnErrorResponse)
                         throw new ApplicationException($"External process execution failed with returncode: {process.ExitCode} and output: {Environment.NewLine}{stderrSb}");
+                    else if (!string.IsNullOrEmpty(stderrSb.ToString()) && options.ThrowExceptionOnErrorResponse)
+                        throw new ApplicationException($"External process execution failed with returncode: 1 and output: {Environment.NewLine}{stderrSb}");
 
                     return new Result(process.ExitCode, stdoutSb.ToString(), stderrSb.ToString());
                 }
