@@ -25,7 +25,8 @@ public static class Utilities
         using var process = new Process();
 
         process.StartInfo.UseShellExecute = false;
-        process.StartInfo.Arguments = string.Join(" ", input.Arguments.Select(x => x.Name + " " + x.Value).ToArray());
+        foreach (var item in input.Arguments)
+            process.StartInfo.ArgumentList.Add(item);
         process.StartInfo.FileName = input.FileName;
         process.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
         process.StartInfo.CreateNoWindow = true;
