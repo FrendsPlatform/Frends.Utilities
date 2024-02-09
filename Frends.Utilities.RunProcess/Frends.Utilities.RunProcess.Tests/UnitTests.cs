@@ -65,7 +65,7 @@ internal class UnitTests
     public void RunProcess_TimeoutNoKillProcess()
     {
         var args = _windows
-            ? new string[] { "/C", "timeout /t 30 > NUL 2>&1" }
+            ? new string[] { "/C", "ping 127.0.0.1 -n 31 > NUL" }
             : new string[] { "-c", "sleep 30 > /dev/null 2>&1" };
 
         input.Arguments = args;
@@ -104,7 +104,7 @@ internal class UnitTests
     public void RunProcess_TimeoutKillProcess()
     {
         var args = _windows
-            ? new string[] { "/C", "timeout /t 30 > NUL 2>&1" }
+            ? new string[] { "/C", "ping 127.0.0.1 -n 31 > NUL" }
             : new string[] { "-c", "sleep 30 > /dev/null 2>&1" };
 
         input.Arguments = args;
@@ -141,7 +141,7 @@ internal class UnitTests
     public void RunProcess_FillSTDOUTTimeout30secsKillProcess()
     {
         var args = _windows
-            ? new string[] { "/C", "timeout /t 30 > NUL 2>&1" }
+            ? new string[] { "/C", "ping 127.0.0.1 -n 31 > NUL" }
             : new string[] { "-c", $"sleep 30 > /dev/null 2>&1" };
 
         input.Arguments = args;
