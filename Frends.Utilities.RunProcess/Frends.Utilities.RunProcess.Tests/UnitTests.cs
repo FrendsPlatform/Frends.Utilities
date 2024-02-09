@@ -65,7 +65,7 @@ internal class UnitTests
     public void RunProcess_TimeoutNoKillProcess()
     {
         var args = _windows
-            ? new string[] { "/C timeout 30 /nobreak > NUL" }
+            ? new string[] { "/C", "timeout /t 30 /nobreak > NUL 2>&1" }
             : new string[] { "-c", "sleep 30 > /dev/null 2>&1" };
 
         input.Arguments = args;
@@ -94,8 +94,10 @@ internal class UnitTests
         var options = new Options { KillProcessAfterTimeout = false, TimeoutSeconds = 30, RedirectStandardInput = false };
 
         Utilities.RunProcess(input, options);
-
-        Assert.AreEqual($"11{Environment.NewLine}", File.ReadAllText(testFileWithPath));
+        if (_windows)
+            Assert.AreEqual("11", File.ReadAllText(testFileWithPath));
+        else
+            Assert.AreEqual($"11{Environment.NewLine}", File.ReadAllText(testFileWithPath));
     }
 
     [Test]
