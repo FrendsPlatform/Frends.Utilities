@@ -133,7 +133,7 @@ internal class UnitTests
         var result = Utilities.RunProcess(input, options);
 
         Assert.IsTrue(result.Output.Length >= 8096 + 5);
-        Assert.IsTrue(result.Output[1234] == 'a');
+        Assert.AreEqual('a', result.Output[1234]);
     }
 
     [Test]
