@@ -22,4 +22,12 @@ public class Input
     /// </summary>
     /// <example>[ "/C", "echo Hello" ]</example>
     public string[] Arguments { get; set; }
+
+    /// <summary>
+    /// Working directory for the process.
+    /// </summary>
+    /// <example>/working/directory OR C:\working\directory</example>
+    [DefaultValue("")]
+    [DisplayFormat(DataFormatString = "Text")]
+    public string WorkingDirectory { get; set; }
 }

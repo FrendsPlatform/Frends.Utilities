@@ -32,10 +32,14 @@ public static class Utilities
             RedirectStandardInput = options.RedirectStandardInput,
         };
 
+        if (!string.IsNullOrEmpty(input.WorkingDirectory))
+            startInfo.WorkingDirectory = input.WorkingDirectory;
+
         foreach (var item in input.Arguments)
             startInfo.ArgumentList.Add(item);
 
-        using var process = Process.Start(startInfo);
+        using var process = new Process();
+        process.StartInfo = startInfo;
 
         var stdoutSb = new StringBuilder();
         var stderrSb = new StringBuilder();
