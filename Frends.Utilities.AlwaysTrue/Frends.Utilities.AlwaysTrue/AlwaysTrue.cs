@@ -1,4 +1,4 @@
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using Frends.Utilities.AlwaysTrue.Definitions;
 using Frends.Utilities.AlwaysTrue.Helpers;
 
@@ -29,7 +29,6 @@ public static class Utilities
             return new Result
             {
                 Success = true,
-                TaskResult = true,
                 Error = null,
             };
         }

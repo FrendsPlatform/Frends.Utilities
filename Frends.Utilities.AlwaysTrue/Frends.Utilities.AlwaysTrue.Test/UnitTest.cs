@@ -11,7 +11,6 @@ public class UnitTest
     {
         var result = Utilities.AlwaysTrue(new Input(), new Options(), CancellationToken.None);
         Assert.That(result.Success, Is.True);
-        Assert.That(result.TaskResult, Is.True);
         Assert.That(result.Error, Is.Null);
     }
 
