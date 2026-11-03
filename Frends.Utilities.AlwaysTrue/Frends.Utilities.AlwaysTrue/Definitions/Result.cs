@@ -1,18 +1,25 @@
-﻿namespace Frends.Utilities.AlwaysTrue.Definitions;
+namespace Frends.Utilities.AlwaysTrue.Definitions;
 
 /// <summary>
-/// Result.
+/// Result of the task.
 /// </summary>
 public class Result
 {
     /// <summary>
+    /// Indicates if the task completed successfully.
+    /// </summary>
+    /// <example>true</example>
+    public bool Success { get; set; }
+
+    /// <summary>
     /// Result will always be true.
     /// </summary>
     /// <example>true</example>
-    public bool TaskResult { get; private set; }
+    public bool TaskResult { get; set; }
 
-    internal Result(bool taskResult)
-    {
-        TaskResult = taskResult;
-    }
+    /// <summary>
+    /// Error that occurred during task execution.
+    /// </summary>
+    /// <example>object { string Message, Exception AdditionalInfo }</example>
+    public Error Error { get; set; }
 }
