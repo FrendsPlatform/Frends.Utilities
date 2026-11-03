@@ -1,18 +1,19 @@
-﻿namespace Frends.Utilities.Sleep.Definitions;
+namespace Frends.Utilities.Sleep.Definitions;
 
 /// <summary>
-/// Result.
+/// Result of the task.
 /// </summary>
 public class Result
 {
     /// <summary>
-    /// Sleep result.
+    /// Indicates if the task completed successfully.
     /// </summary>
     /// <example>true</example>
-    public bool SleepResult { get; private set; }
+    public bool Success { get; set; }
 
-    internal Result(bool sleepResult)
-    {
-        SleepResult = sleepResult;
-    }
+    /// <summary>
+    /// Error that occurred during task execution.
+    /// </summary>
+    /// <example>object { string Message, Exception AdditionalInfo }</example>
+    public Error Error { get; set; }
 }
