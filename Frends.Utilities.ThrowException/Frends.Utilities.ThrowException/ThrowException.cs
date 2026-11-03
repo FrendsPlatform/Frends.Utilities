@@ -26,10 +26,13 @@ public static class Utilities
         {
             cancellationToken.ThrowIfCancellationRequested();
 
-            if (string.IsNullOrWhiteSpace(input.InputString))
-                return new Result { Success = true, Error = null };
-
-            throw new Exception(input.InputString);
+            return string.IsNullOrWhiteSpace(input.InputString)
+                ? new Result
+                {
+                    Success = true,
+                    Error = null,
+                }
+                : throw new Exception(input.InputString);
         }
         catch (Exception ex)
         {
