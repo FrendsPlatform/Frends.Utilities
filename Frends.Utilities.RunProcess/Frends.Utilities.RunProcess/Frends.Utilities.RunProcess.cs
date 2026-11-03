@@ -1,11 +1,10 @@
-﻿namespace Frends.Utilities.RunProcess;
+namespace Frends.Utilities.RunProcess;
 
-using System;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Text;
-using System.Threading;
 using Frends.Utilities.RunProcess.Definitions;
+using Frends.Utilities.RunProcess.Helpers;
 
 /// <summary>
 /// Main class of the Task.
@@ -18,8 +17,22 @@ public static class Utilities
     /// </summary>
     /// <param name="input">Input parameters.</param>
     /// <param name="options">Options parameters.</param>
-    /// <returns>Object { int ExitCode, string Output, string StdErr }</returns>
-    public static Result RunProcess([PropertyTab] Input input, [PropertyTab] Options options)
+    /// <param name="cancellationToken">A cancellation token provided by Frends Platform.</param>
+    /// <returns>object { bool Success, int ExitCode, string Output, string StdErr, object Error { string Message, Exception AdditionalInfo } }</returns>
+    public static Result RunProcess([PropertyTab] Input input, [PropertyTab] Options options, CancellationToken cancellationToken)
+    {
+        try
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            return Execute(input, options);
+        }
+        catch (Exception ex)
+        {
+            return ex.Handle(options);
+        }
+    }
+
+    private static Result Execute(Input input, Options options)
     {
         var startInfo = new ProcessStartInfo
         {
@@ -102,7 +115,14 @@ public static class Utilities
                     else if (!string.IsNullOrEmpty(stderrSb.ToString()) && options.ThrowExceptionOnErrorResponse)
                         throw new ApplicationException($"External process execution failed with returncode: 1 and output: {Environment.NewLine}{stderrSb}");
 
-                    return new Result(process.ExitCode, stdoutSb.ToString(), stderrSb.ToString());
+                    return new Result
+                    {
+                        Success = true,
+                        ExitCode = process.ExitCode,
+                        Output = stdoutSb.ToString(),
+                        StdErr = stderrSb.ToString(),
+                        Error = null,
+                    };
                 }
                 else
                 {
