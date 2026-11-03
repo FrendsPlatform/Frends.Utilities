@@ -1,18 +1,19 @@
-﻿namespace Frends.Utilities.ThrowException.Definitions;
+namespace Frends.Utilities.ThrowException.Definitions;
 
 /// <summary>
-/// Result.
+/// Result of the task.
 /// </summary>
 public class Result
 {
     /// <summary>
-    /// Returns false if InputString was empty. 
+    /// Indicates if the task completed successfully. False if an exception was thrown and handled.
     /// </summary>
-    /// <example>false</example>
-    public bool ExceptionThrown { get; private set; }
+    /// <example>true</example>
+    public bool Success { get; set; }
 
-    internal Result(bool exceptionThrown)
-    {
-        ExceptionThrown = exceptionThrown;
-    }
+    /// <summary>
+    /// Error that occurred during task execution.
+    /// </summary>
+    /// <example>object { string Message, Exception AdditionalInfo }</example>
+    public Error Error { get; set; }
 }

@@ -1,4 +1,4 @@
-﻿namespace Frends.Utilities.ThrowException.Definitions;
+namespace Frends.Utilities.ThrowException.Definitions;
 
 /// <summary>
 /// Input parameter.
@@ -6,8 +6,8 @@
 public class Input
 {
     /// <summary>
-    /// Exception message.
+    /// Exception message. If empty, no exception is thrown.
     /// </summary>
-    /// <example>Example Text.</example>
+    /// <example>Order validation failed: missing customer ID</example>
     public string InputString { get; set; }
 }

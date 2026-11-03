@@ -1,22 +1,35 @@
 using Frends.Utilities.ThrowException.Definitions;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
+
 namespace Frends.Utilities.ThrowException.Test;
 
-[TestClass]
+[TestFixture]
 public class UnitTest
 {
-    [TestMethod]
-    public void TestResultTrue()
+    [Test]
+    public void TestThrowsWhenMessageGiven()
     {
-        Input input = new() { InputString = "Test message." };
-        Assert.ThrowsException<Exception>(() => Utilities.ThrowException(input)).Message.Contains("Test message.");
+        var input = new Input { InputString = "Test message." };
+        var ex = Assert.Throws<Exception>(() => Utilities.ThrowException(input, new Options(), CancellationToken.None));
+        Assert.That(ex.Message, Is.EqualTo("Test message."));
     }
 
-    [TestMethod]
-    public void TestResultFalse()
+    [Test]
+    public void TestSuccessWhenMessageEmpty()
     {
-        Input input = new() { InputString = "" };
-        var result = Utilities.ThrowException(input);
-        Assert.IsTrue(result.ExceptionThrown.Equals(false));
+        var input = new Input { InputString = string.Empty };
+        var result = Utilities.ThrowException(input, new Options(), CancellationToken.None);
+        Assert.That(result.Success, Is.True);
+        Assert.That(result.Error, Is.Null);
+    }
+
+    [Test]
+    public void TestReturnsErrorWhenThrowDisabled()
+    {
+        var input = new Input { InputString = "Test message." };
+        var options = new Options { ThrowErrorOnFailure = false, ErrorMessageOnFailure = "Custom" };
+        var result = Utilities.ThrowException(input, options, CancellationToken.None);
+        Assert.That(result.Success, Is.False);
+        Assert.That(result.Error.Message, Is.EqualTo("Custom: Test message."));
     }
 }
