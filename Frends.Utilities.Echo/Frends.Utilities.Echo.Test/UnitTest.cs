@@ -10,7 +10,7 @@ public class UnitTest
     public void TestResultTrue()
     {
         Input input = new() { InputString = "Test message." };
-        var result = Utilities.Echo(input, new Options(), CancellationToken.None);
+        var result = Utilities.Echo(input);
         Assert.IsTrue(result.Success);
         Assert.IsTrue(result.ResultString.Equals("Test message."));
     }

@@ -1,4 +1,4 @@
-namespace Frends.Utilities.Echo.Definitions;
+﻿namespace Frends.Utilities.Echo.Definitions;
 
 /// <summary>
 /// Result of the task.
@@ -16,10 +16,4 @@ public class Result
     /// </summary>
     /// <example>Example Text</example>
     public string ResultString { get; set; }
-
-    /// <summary>
-    /// Error that occurred during task execution.
-    /// </summary>
-    /// <example>object { string Message, Exception AdditionalInfo }</example>
-    public Error Error { get; set; }
 }
