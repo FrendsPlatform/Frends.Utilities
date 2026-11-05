@@ -9,16 +9,7 @@ public class UnitTest
     [Test]
     public void TestResultTrue()
     {
-        var result = Utilities.AlwaysTrue(new Input(), new Options(), CancellationToken.None);
+        var result = Utilities.AlwaysTrue();
         Assert.That(result.Success, Is.True);
-        Assert.That(result.Error, Is.Null);
-    }
-
-    [Test]
-    public void TestCanceledThrows()
-    {
-        using var cts = new CancellationTokenSource();
-        cts.Cancel();
-        Assert.Throws<OperationCanceledException>(() => Utilities.AlwaysTrue(new Input(), new Options(), cts.Token));
     }
 }

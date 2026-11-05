@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel;
 using Frends.Utilities.AlwaysTrue.Definitions;
-using Frends.Utilities.AlwaysTrue.Helpers;
 
 namespace Frends.Utilities.AlwaysTrue;
 
@@ -13,28 +12,12 @@ public static class Utilities
     /// Return boolean value true.
     /// [Documentation](https://tasks.frends.com/tasks/frends-tasks/Frends-Utilities-AlwaysTrue)
     /// </summary>
-    /// <param name="input">Essential parameters.</param>
-    /// <param name="options">Additional parameters.</param>
-    /// <param name="cancellationToken">A cancellation token provided by Frends Platform.</param>
-    /// <returns>object { bool Success, bool TaskResult, object Error { string Message, Exception AdditionalInfo } }</returns>
-    public static Result AlwaysTrue(
-        [PropertyTab] Input input,
-        [PropertyTab] Options options,
-        CancellationToken cancellationToken)
+    /// <returns>object { bool Success }</returns>
+    public static Result AlwaysTrue()
     {
-        try
-        {
-            cancellationToken.ThrowIfCancellationRequested();
-
             return new Result
             {
                 Success = true,
-                Error = null,
             };
-        }
-        catch (Exception ex)
-        {
-            return ex.Handle(options);
-        }
     }
 }
