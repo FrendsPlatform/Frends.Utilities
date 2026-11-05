@@ -16,13 +16,9 @@
 	<PackageProjectUrl>https://frends.com/</PackageProjectUrl>
 	<RepositoryUrl>https://github.com/FrendsPlatform/Frends.Utilities</RepositoryUrl>
   </PropertyGroup>
-	
+
   <ItemGroup>
 	<PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.556">
-		<PrivateAssets>all</PrivateAssets>
-		<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-	</PackageReference>
-	<PackageReference Include="FrendsTaskAnalyzers" Version="1.*">
 		<PrivateAssets>all</PrivateAssets>
 		<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 	</PackageReference>

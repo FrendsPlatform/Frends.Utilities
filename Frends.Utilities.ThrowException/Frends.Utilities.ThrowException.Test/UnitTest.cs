@@ -7,29 +7,18 @@ namespace Frends.Utilities.ThrowException.Test;
 public class UnitTest
 {
     [Test]
-    public void TestThrowsWhenMessageGiven()
+    public void ThrowsWhenMessageGiven()
     {
         var input = new Input { InputString = "Test message." };
-        var ex = Assert.Throws<Exception>(() => Utilities.ThrowException(input, new Options(), CancellationToken.None));
+        var ex = Assert.Throws<Exception>(() => Utilities.ThrowException(input));
         Assert.That(ex.Message, Is.EqualTo("Test message."));
     }
 
     [Test]
-    public void TestSuccessWhenMessageEmpty()
+    public void ReturnsFalseWhenMessageEmpty()
     {
         var input = new Input { InputString = string.Empty };
-        var result = Utilities.ThrowException(input, new Options(), CancellationToken.None);
-        Assert.That(result.Success, Is.True);
-        Assert.That(result.Error, Is.Null);
-    }
-
-    [Test]
-    public void TestReturnsErrorWhenThrowDisabled()
-    {
-        var input = new Input { InputString = "Test message." };
-        var options = new Options { ThrowErrorOnFailure = false, ErrorMessageOnFailure = "Custom" };
-        var result = Utilities.ThrowException(input, options, CancellationToken.None);
+        var result = Utilities.ThrowException(input);
         Assert.That(result.Success, Is.False);
-        Assert.That(result.Error.Message, Is.EqualTo("Custom: Test message."));
     }
 }

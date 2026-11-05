@@ -1,6 +1,5 @@
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using Frends.Utilities.ThrowException.Definitions;
-using Frends.Utilities.ThrowException.Helpers;
 
 namespace Frends.Utilities.ThrowException;
 
@@ -14,29 +13,12 @@ public static class Utilities
     /// [Documentation](https://tasks.frends.com/tasks/frends-tasks/Frends-Utilities-ThrowException)
     /// </summary>
     /// <param name="input">Essential parameters.</param>
-    /// <param name="options">Additional parameters.</param>
-    /// <param name="cancellationToken">A cancellation token provided by Frends Platform.</param>
     /// <returns>object { bool Success, object Error { string Message, Exception AdditionalInfo } }</returns>
     public static Result ThrowException(
-        [PropertyTab] Input input,
-        [PropertyTab] Options options,
-        CancellationToken cancellationToken)
+        [PropertyTab] Input input)
     {
-        try
-        {
-            cancellationToken.ThrowIfCancellationRequested();
-
-            return string.IsNullOrWhiteSpace(input.InputString)
-                ? new Result
-                {
-                    Success = true,
-                    Error = null,
-                }
-                : throw new Exception(input.InputString);
-        }
-        catch (Exception ex)
-        {
-            return ex.Handle(options);
-        }
+        return string.IsNullOrWhiteSpace(input.InputString)
+            ? new Result { Success = false }
+            : throw new Exception(input.InputString);
     }
 }
