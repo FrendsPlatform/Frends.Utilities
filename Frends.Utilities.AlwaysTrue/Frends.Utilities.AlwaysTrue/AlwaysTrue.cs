@@ -15,9 +15,9 @@ public static class Utilities
     /// <returns>object { bool Success }</returns>
     public static Result AlwaysTrue()
     {
-            return new Result
-            {
-                Success = true,
-            };
+        return new Result
+        {
+            Success = true,
+        };
     }
 }
