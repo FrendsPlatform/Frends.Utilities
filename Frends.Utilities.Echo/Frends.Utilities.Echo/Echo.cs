@@ -13,7 +13,7 @@ public static class Utilities
     /// [Documentation](https://tasks.frends.com/tasks/frends-tasks/Frends.Utilities.Echo)
     /// </summary>
     /// <param name="input">Essential parameters.</param>
-    /// <returns>object { bool Success, string ResultString, object Error { string Message, Exception AdditionalInfo } }</returns>
+    /// <returns>object { bool Success, string ResultString }</returns>
     public static Result Echo(
         [PropertyTab] Input input)
     {
