@@ -1,22 +1,24 @@
 using Frends.Utilities.ThrowException.Definitions;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
+
 namespace Frends.Utilities.ThrowException.Test;
 
-[TestClass]
+[TestFixture]
 public class UnitTest
 {
-    [TestMethod]
-    public void TestResultTrue()
+    [Test]
+    public void ThrowsWhenMessageGiven()
     {
-        Input input = new() { InputString = "Test message." };
-        Assert.ThrowsException<Exception>(() => Utilities.ThrowException(input)).Message.Contains("Test message.");
+        var input = new Input { InputString = "Test message." };
+        var ex = Assert.Throws<Exception>(() => Utilities.ThrowException(input));
+        Assert.That(ex.Message, Is.EqualTo("Test message."));
     }
 
-    [TestMethod]
-    public void TestResultFalse()
+    [Test]
+    public void ReturnsFalseWhenMessageEmpty()
     {
-        Input input = new() { InputString = "" };
+        var input = new Input { InputString = string.Empty };
         var result = Utilities.ThrowException(input);
-        Assert.IsTrue(result.ExceptionThrown.Equals(false));
+        Assert.That(result.Success, Is.False);
     }
 }
