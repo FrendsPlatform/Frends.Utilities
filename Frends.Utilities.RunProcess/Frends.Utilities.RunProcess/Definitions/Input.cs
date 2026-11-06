@@ -1,4 +1,4 @@
-﻿namespace Frends.Utilities.RunProcess.Definitions;
+namespace Frends.Utilities.RunProcess.Definitions;
 
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
