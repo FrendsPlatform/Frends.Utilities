@@ -1,13 +1,15 @@
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Frends.Utilities.AlwaysTrue.Definitions;
+using NUnit.Framework;
+
 namespace Frends.Utilities.AlwaysTrue.Test;
 
-[TestClass]
+[TestFixture]
 public class UnitTest
 {
-    [TestMethod]
+    [Test]
     public void TestResultTrue()
     {
         var result = Utilities.AlwaysTrue();
-        Assert.IsTrue(result.TaskResult); 
+        Assert.That(result.Success, Is.True);
     }
 }

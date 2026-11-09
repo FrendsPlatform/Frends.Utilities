@@ -1,19 +1,23 @@
-﻿using Frends.Utilities.AlwaysTrue.Definitions;
+﻿using System.ComponentModel;
+using Frends.Utilities.AlwaysTrue.Definitions;
 
 namespace Frends.Utilities.AlwaysTrue;
 
 /// <summary>
-/// Utilities AlwaysTrue task.
+/// Task Class for Utilities operations.
 /// </summary>
-public class Utilities
+public static class Utilities
 {
     /// <summary>
     /// Return boolean value true.
-    /// [Documentation](https://tasks.frends.com/tasks/frends-tasks/Frends.Utilities.AlwaysTrue)
+    /// [Documentation](https://tasks.frends.com/tasks/frends-tasks/Frends-Utilities-AlwaysTrue)
     /// </summary>
-    /// <returns>Object { bool TaskResult }</returns>
+    /// <returns>object { bool Success }</returns>
     public static Result AlwaysTrue()
     {
-       return new Result(true);
+        return new Result
+        {
+            Success = true,
+        };
     }
 }
