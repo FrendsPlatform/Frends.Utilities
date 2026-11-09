@@ -1,4 +1,4 @@
-﻿namespace Frends.Utilities.Echo.Definitions;
+namespace Frends.Utilities.Echo.Definitions;
 
 /// <summary>
 /// Input parameter.

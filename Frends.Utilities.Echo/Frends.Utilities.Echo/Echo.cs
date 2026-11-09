@@ -1,19 +1,26 @@
-﻿using Frends.Utilities.Echo.Definitions;
+﻿using System.ComponentModel;
+using Frends.Utilities.Echo.Definitions;
+
 namespace Frends.Utilities.Echo;
 
 /// <summary>
 /// Utilities Echo task.
 /// </summary>
-public class Utilities
+public static class Utilities
 {
     /// <summary>
     /// Returns given string.
     /// [Documentation](https://tasks.frends.com/tasks/frends-tasks/Frends.Utilities.Echo)
     /// </summary>
-    /// <param name="input">Input parameter.</param>
-    /// <returns>Object { string ResultString }</returns>
-    public static Result Echo(Input input)
+    /// <param name="input">Essential parameters.</param>
+    /// <returns>object { bool Success, string ResultString }</returns>
+    public static Result Echo(
+        [PropertyTab] Input input)
     {
-        return new Result(input.InputString);
+        return new Result
+        {
+            Success = true,
+            ResultString = input.InputString,
+        };
     }
 }

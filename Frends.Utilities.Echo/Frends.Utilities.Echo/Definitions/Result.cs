@@ -1,18 +1,19 @@
 ﻿namespace Frends.Utilities.Echo.Definitions;
 
 /// <summary>
-/// Result.
+/// Result of the task.
 /// </summary>
 public class Result
 {
     /// <summary>
+    /// Indicates if the task completed successfully.
+    /// </summary>
+    /// <example>true</example>
+    public bool Success { get; set; }
+
+    /// <summary>
     /// Returns given Input String.
     /// </summary>
     /// <example>Example Text</example>
-    public string ResultString { get; private set; }
-
-    internal Result(string resultString)
-    {
-        ResultString = resultString;
-    }
+    public string ResultString { get; set; }
 }
