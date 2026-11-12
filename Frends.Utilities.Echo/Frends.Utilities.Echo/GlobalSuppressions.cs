@@ -8,3 +8,5 @@ using System.Diagnostics.CodeAnalysis;
 [assembly: SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1629:DocumentationTextMustEndWithAPeriod", Justification = "Following Frends Tasks guidelines")]
 [assembly: SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1633:FileMustHaveHeader", Justification = "Following Frends documentation guidelines")]
 [assembly: SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1649:FileNameMustMatchTypeName", Justification = "Following Frends Tasks guidelines")]
+[assembly: SuppressMessage("Frends.Analyzers", "FT0011: Class should include a 'Error' property", Justification = "Primitive task that does not require following all Frends standards")]
+[assembly: SuppressMessage("Frends.Analyzers", "FT0007: Task method is missing required parameter", Justification = "Primitive task that does not require following all Frends standards")]
